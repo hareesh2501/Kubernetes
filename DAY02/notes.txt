@@ -204,6 +204,12 @@ https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-clu
 
 sudo su -
 
+#If you're using Ubuntu
+
+#Install conntrack:
+apt update
+apt install -y conntrack
+
 # Initialize Kubernates master by executing below commond.
 
 kubeadm init
