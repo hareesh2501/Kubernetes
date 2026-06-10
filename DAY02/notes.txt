@@ -254,7 +254,45 @@ kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/we
 
 Or To install the calico network addon, run the following command:
 
-#kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml 
+#kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+///*
+[Note:- If you get error because of versions please try to run below commands
+#Remove Weave:
+
+kubectl delete -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
+#Confirm removal:
+
+kubectl get pods -n kube-system
+
+#Install Calico:
+
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.3/manifests/calico.yaml
+
+#Watch the pods come up:
+
+kubectl get pods -n kube-system -w
+
+#Then check:
+
+kubectl get nodes
+
+#Expected:
+
+#NAME             STATUS   ROLES           AGE   VERSION
+#ip-172-31-5-61   Ready    control-plane   ...
+#Also verify containerd is using systemd cgroups
+
+#Run:
+
+grep SystemdCgroup /etc/containerd/config.toml
+
+#Expected:
+
+SystemdCgroup = true
+
+]*////
 
 
 kubectl get nodes
