@@ -158,7 +158,7 @@ Now, we will see how the auto scaler reacts to increased load. We will start a c
 # Execute below command in Temp Pod
  
   $ while true;
-   do wget -q -O- http://hpaclusterservice;
+   do wget -q -O- http://hpasvc;
    done	
 
 Open kubectl terminal in another tab and watch kubectl get pods or kubect get hpa to see how the auto scaler reacts to increased load.
