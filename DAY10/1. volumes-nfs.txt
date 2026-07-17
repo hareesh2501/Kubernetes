@@ -46,23 +46,23 @@ spec:
 
 
 ==================================
-
+# Springboot application
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: springapp
-  namespace: test-ns 
+  namespace: test-ns
 spec:
   replicas: 2
-  selector: 
+  selector:
     matchLabels:
       app: springapp
   template:
     metadata:
       labels:
         app: springapp
-    spec:  
+    spec:
       containers:
       - name: springapp
         image: kkeducation12345/spring-app:1.0.0
@@ -75,6 +75,15 @@ spec:
           value: devdb
         - name: MONGO_DB_PASSWORD
           value: devdb@123
+        - name: JAVA_OPTS
+          value: "-Xms256m -Xmx512m"
+        resources:
+          requests:
+           memory: "512Mi"
+           cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
 
 ---
 apiVersion: v1
@@ -223,10 +232,10 @@ metadata:
   name: mongodb
   namespace: test-ns
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: mongodb
-  replicas: 1
   template:
     metadata:
       labels:
@@ -245,11 +254,19 @@ spec:
         volumeMounts:
         - name: mongonfsvol
           mountPath: /data/db
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+
       volumes:
       - name: mongonfsvol
         nfs:
-         server: 172.31.39.76
-         path: /mnt/nfs_share
+          server: 172.31.39.76
+          path: /mnt/nfs_share
 
 ---
 apiVersion: v1
@@ -262,5 +279,5 @@ spec:
   selector:
     app: mongodb
   ports:
-    - port: 27017
-      targetPort: 27017
+  - port: 27017
+    targetPort: 27017
