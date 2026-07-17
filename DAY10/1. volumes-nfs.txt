@@ -248,7 +248,7 @@ spec:
       volumes:
       - name: mongonfsvol
         nfs:
-         server: 172.31.9.244
+         server: 172.31.39.76
          path: /mnt/nfs_share
 
 ---
